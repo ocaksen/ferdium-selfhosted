@@ -1,5 +1,23 @@
 # Ferdium — Coolify (Self-Hosted) Kurulumu
 
+> **DURUM: ÇALIŞIYOR.** Coolify sunucusuna kuruldu.
+> Erişim: `http://xvqmpuvxob11bdo94odcsotk.45.81.115.20.sslip.io` (kullanıcı: `admin`).
+> Coolify projesi: `ferdium` · App uuid: `xvqmpuvxob11bdo94odcsotk` · Build pack: **Dockerfile**.
+>
+> ## Kurulumda çözülen 3 kritik nokta (ileride lazım olursa)
+> 1. **Build hatası:** Temel imajdaki (linuxserver kasmvnc) bozuk NodeSource apt deposu
+>    `apt-get update`'i patlatıyordu → Dockerfile'da `rm -f /etc/apt/sources.list.d/*nodesource*` ile silindi.
+> 2. **503 (proxy):** Coolify docker-compose modunda Traefik etiketlerini enjekte etmedi.
+>    Çözüm: build pack'i **Dockerfile**'a çevir + domain'e container portunu ekle
+>    (`http://...:3000`). Coolify proxy hedef portunu **fqdn'deki port**tan alır, `ports_exposes`'tan değil.
+>    API'de `fqdn` alanı salt-okunur; `domains` alanıyla güncellenir.
+> 3. **İzin (EACCES /config):** Dockerfile modunda compose env'i kullanılmaz; container 911 kullanıcısıyla
+>    açılıp 1000-sahipli volume'e yazamadı → Coolify env'ine `PUID=1000`, `PGID=1000` eklendi.
+>
+> Not: `docker-compose.yml` artık Coolify tarafından KULLANILMIYOR (Dockerfile build pack aktif).
+> Referans olarak repoda duruyor.
+
+
 Ferdium masaüstü uygulamasını, sunucuda **tarayıcıdan erişilebilir** bir web masaüstü
 (KasmVNC) içinde çalıştırır. Böylece Windows'una hiçbir şey kurmadan, herhangi bir
 tarayıcıdan birden fazla WhatsApp + Telegram + Slack + mail vb. hesabını tek yerden
