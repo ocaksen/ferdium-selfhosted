@@ -1,0 +1,24 @@
+services:
+  ferdium:
+    build: .
+    container_name: ferdium
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Istanbul
+      # --- WEB GİRİŞ KORUMASI ---
+      # Değerler GitHub'a yazılmaz; Coolify'ın Environment Variables bölümünden gelir.
+      - CUSTOM_USER=${CUSTOM_USER}
+      - PASSWORD=${PASSWORD}
+    volumes:
+      # Tüm hesap oturumların (WhatsApp QR vs.) burada kalıcı saklanır.
+      - ferdium-config:/config
+    ports:
+      # Coolify domain bağlayacağı için sadece iç port yeterli.
+      - "3000:3000"
+    # Electron/Chromium'un düzgün çalışması için paylaşımlı bellek.
+    shm_size: "1gb"
+    restart: unless-stopped
+
+volumes:
+  ferdium-config:

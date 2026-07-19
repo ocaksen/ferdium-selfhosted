@@ -1,0 +1,4 @@
+#!/bin/bash
+# Container açıldığında Ferdium otomatik başlar.
+# Electron uygulamaları container içinde root altında çalışırken --no-sandbox gerektirir.
+/opt/Ferdium/ferdium --no-sandbox --disable-gpu --disable-dev-shm-usage %U
