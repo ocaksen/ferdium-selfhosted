@@ -1,8 +1,9 @@
 services:
   ferdium:
     build: .
-    container_name: ferdium
     environment:
+      # Coolify'a "bu servisi 3000 portundan yayınla ve domain ver" der.
+      - SERVICE_FQDN_FERDIUM_3000
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Istanbul
@@ -13,9 +14,9 @@ services:
     volumes:
       # Tüm hesap oturumların (WhatsApp QR vs.) burada kalıcı saklanır.
       - ferdium-config:/config
-    ports:
-      # Coolify domain bağlayacağı için sadece iç port yeterli.
-      - "3000:3000"
+    expose:
+      # KasmVNC web arayüzü bu portta; Coolify proxy buraya yönlendirir.
+      - "3000"
     # Electron/Chromium'un düzgün çalışması için paylaşımlı bellek.
     shm_size: "1gb"
     restart: unless-stopped
