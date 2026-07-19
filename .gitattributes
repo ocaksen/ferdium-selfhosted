@@ -1,0 +1,5 @@
+# Shell betikleri ve Dockerfile daima LF olmalı (CRLF Linux'ta çalışmayı bozar)
+* text=auto eol=lf
+*.sh text eol=lf
+root/defaults/autostart text eol=lf
+Dockerfile text eol=lf
