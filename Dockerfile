@@ -7,11 +7,12 @@ FROM lscr.io/linuxserver/baseimage-kasmvnc:ubuntujammy
 # Ferdium'un sabit "latest" linki olmadığı için en güncel sürümün amd64 .deb
 # adresini GitHub API'den dinamik olarak buluyoruz (böylece ileride bozulmaz).
 RUN echo "**** Ferdium kuruluyor ****" && \
+    rm -f /etc/apt/sources.list.d/*nodesource* /etc/apt/sources.list.d/*node_18* && \
     apt-get update && \
     apt-get install -y --no-install-recommends curl ca-certificates && \
     DEB_URL="$(curl -fsSL https://api.github.com/repos/ferdium/ferdium-app/releases/latest \
       | grep -oP '\"browser_download_url\":\s*\"\K[^\"]*amd64\.deb')" && \
-    echo "İndirilecek: $DEB_URL" && \
+    echo "Downloading: $DEB_URL" && \
     curl -fL "$DEB_URL" -o /tmp/ferdium.deb && \
     apt-get install -y --no-install-recommends /tmp/ferdium.deb && \
     echo "**** temizlik ****" && \
